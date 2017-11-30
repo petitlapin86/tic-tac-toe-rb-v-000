@@ -1,15 +1,13 @@
-# Define your WIN_COMBINATIONS constant
-puts "Welcome to Tic Tac Toe!"
 
 WIN_COMBINATIONS = [
-  [0,1,2], # Top row
-  [3,4,5],  # Middle row
-  [6,7,8],#
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
   [0,3,6],
   [1,4,7],
   [2,5,8],
   [0,4,8],
-  [2,4,6]
+  [6,4,2]
 ]
 
 def play(board)
@@ -44,28 +42,27 @@ def won?(board)
 end
 
 def full?(board)
-  board.all?{|player| player == "X" || player == "O"}
+  board.all?{|token| token == "X" || token == "O"}
 end
 
 def draw?(board)
   !won?(board) && full?(board)
 end
 
-  def over?(board)
+def over?(board)
   won?(board) || draw?(board)
 end
 
-#input_to_index here
 def input_to_index(user_input)
   user_input.to_i - 1
 end
 
 def turn(board)
   puts "Please enter 1-9:"
-  input = gets.strip
-  index = input_to_index(input)
+  user_input = gets.strip
+  index = input_to_index(user_input)
   if valid_move?(board, index)
-    move(board, index)
+    move(board, index, current_player(board))
     display_board(board)
   else
     turn(board)
@@ -73,25 +70,21 @@ def turn(board)
 end
 
 def position_taken?(board, index)
-  !(board[index].nil? || board[index] == " ")
+  board[index]== "X" || board[index] == "O"
 end
 
-#CURRENT PLAYER HERE
 def current_player(board)
   turn_count(board) % 2 == 0 ? "X" : "O"
 end
 
-
 def turn_count(board)
-  board.count{|player| player == "X" || player == "O"}
+  board.count{|token| token == "X" || token == "O"}
 end
 
-#MOVE HERE
-def move(board, index, current_player = "X")
-  board[index] = current_player
+def move(board, index, player)
+  board[index] = player
 end
 
-#WINNER HERE
 def winner(board)
   if winning_combo = won?(board)
     board[winning_combo.first]
