@@ -1,3 +1,4 @@
+puts "Welcome to Tic Tac Toe!"
 
 WIN_COMBINATIONS = [
   [0,1,2],
